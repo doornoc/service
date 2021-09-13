@@ -10,6 +10,7 @@ services:
       - "./data/database-data:/var/lib/postgresql/data"
     restart: always
   codimd:
+    # image: ghcr.io/linuxserver/hedgedoc:latest
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -18,6 +19,7 @@ services:
       - CMD_ALLOW_ANONYMOUS=true
       - CMD_ALLOW_ANONYMOUS_EDITS=true
       - CMD_USECDN=false
+      - CMD_DOMAIN=172.50.1.161:3000
       - CMD_IMAGE_UPLOAD_TYPE=filesystem
       - CMD_URL_ADD_PORT=true
       - CMD_SESSION_NAME=connect.codimd.sid
@@ -27,5 +29,5 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./data/upload-data:/app/public/uploads
+      - ./data/upload-data:/opt/hedgedoc/public/uploads
     restart: always
