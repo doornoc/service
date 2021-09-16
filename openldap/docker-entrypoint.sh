@@ -2,13 +2,15 @@
 
 # slapd
 startSlapd() {
+    # slaptset
+    slaptest -f ./slapd.conf -F ./slapd.d
     # slapd起動
     slapd -d 1
 }
 
 # 初期実行
 initProcess() {
-    if [ ! -e '/check' ]; then
+    if [ ! -e '/check2' ]; then
         touch /check
         # ldapadd
         sleep 10
