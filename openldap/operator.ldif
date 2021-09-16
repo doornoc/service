@@ -1,3 +1,13 @@
+dn: dc=local,dc=doornoc,dc=net
+objectclass: dcObject
+objectclass: organization
+o: doornoc
+dc: local
+
+dn: cn=Manager,dc=local,dc=doornoc,dc=net
+objectClass: organizationalRole
+cn:Manager
+
 dn: ou=Operator,dc=local,dc=doornoc,dc=net
 objectClass: organizationalUnit
 ou: Operator

@@ -5,17 +5,16 @@ ENV LDAP_ADMIN_PASSWORD="password"
 
 RUN apk add --no-cache --upgrade openldap openldap-clients openldap-back-mdb openssl cyrus-sasl
 
-COPY ./slapd.conf /etc/openldap/slapd.conf
-COPY ./operator.ldif /etc/openldap/operator.ldif
+WORKDIR /etc/openldap
+COPY ./slapd.conf .
+COPY ./operator.ldif .
+COPY ./docker-entrypoint.sh .
 
-RUN cd /etc/openldap && \
-    sed -i -e "s/dc=my-domain,dc=com/$LDAP_BASE_DN/g" ./slapd.conf && \
+
+RUN sed -i -e "s/dc=my-domain,dc=com/$LDAP_BASE_DN/g" ./slapd.conf && \
     export LDAP_ROOT_PW=`slappasswd -s ${LDAP_ADMIN_PASSWORD}` && \
     sed -i -e "s/secret/${LDAP_ROOT_PW}/" ./slapd.conf && \
     mkdir slapd.d && \
-    slaptest -f ./slapd.conf -F ./slapd.d; exit 0 && \
-    ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_ADMIN_PASSWORD} -f ./operator.ldif
+    slaptest -f ./slapd.conf -F ./slapd.d; exit 0
 
-CMD ["slapd", "-d", "1"]
-
-# CMD ["tail", "-f", "/dev/null"]
+ENTRYPOINT [ "sh","./docker-entrypoint.sh" ]
