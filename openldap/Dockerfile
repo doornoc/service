@@ -5,7 +5,6 @@ ENV LDAP_ADMIN_PASSWORD="password"
 
 RUN apk add --no-cache --upgrade --virtual for-ldap openldap openldap-back-mdb openssl cyrus-sasl
 
-COPY ./slappasswd.exp /root/slappasswd.exp
 COPY ./slapd.conf /etc/openldap/slapd.conf
 
 RUN cd /etc/openldap && \
