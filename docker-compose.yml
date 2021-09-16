@@ -2,20 +2,16 @@ version: '3'
 
 services:
   ldap1:
-    image: osixia/openldap:latest
+    build: ./openldap
+    image: kushimoto/openldap:latest
     restart: always
     container_name: ldap1
-    command: [--loglevel, debug]
     environment:
       LDAP_ORGANISATION: "doornoc"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
-      LDAP_DOMAIN: "local.doornoc.net"
+      # LDAP_DOMAIN: "local.doornoc.net"
       LDAP_ADMIN_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
-      # LDAP_TLS_VERIFY_CLIENT: "try"
-      LDAP_REPLICATION: "true"
-      LDAP_REPLICATION_HOSTS: "#PYTHON2BASH:['ldap://ldap2']"
-      KEEP_EXISTING_CONFIG: "true"
     networks:
       - webnet
     # ports:
@@ -23,21 +19,16 @@ services:
     #  - "636:636"
 
   ldap2:
-    image: osixia/openldap:latest
+    build: ./openldap
+    image: kushimoto/openldap:latest
     restart: always
     container_name: ldap2
-    command: [--loglevel, debug]
     environment:
       LDAP_ORGANISATION: "doornoc"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
-      LDAP_DOMAIN: "local.doornoc.net"
-      LDAP_DOMAIN: "local.doornoc.net"
+      # LDAP_DOMAIN: "local.doornoc.net"
       LDAP_ADMIN_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
-      # LDAP_TLS_VERIFY_CLIENT: "try"
-      LDAP_REPLICATION: "true"
-      LDAP_REPLICATION_HOSTS: "#PYTHON2BASH:['ldap://ldap1']"
-      KEEP_EXISTING_CONFIG: "true"
     networks:
       - webnet
     # ports:
