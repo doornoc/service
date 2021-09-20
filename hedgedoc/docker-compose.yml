@@ -3,19 +3,19 @@ services:
   database:
     image: postgres:11.6-alpine
     environment:
-      - POSTGRES_USER=codimd
+      - POSTGRES_USER=hedgedoc
       - POSTGRES_PASSWORD=change_password
-      - POSTGRES_DB=codimd
+      - POSTGRES_DB=hedgedoc
     volumes:
       - "./data/database-data:/var/lib/postgresql/data"
     restart: always
-  codimd:
-    # image: ghcr.io/linuxserver/hedgedoc:latest
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  hedgedoc:
+    image: yoneyan/hedgedoc:0.1
+    #build:
+    #  context: .
+    #  dockerfile: ./Dockerfile
     environment:
-      - CMD_DB_URL=postgres://codimd:change_password@database/codimd
+      - CMD_DB_URL=postgres://hedgedoc:change_password@database/hedgedoc
       - CMD_ALLOW_ANONYMOUS=true
       - CMD_ALLOW_ANONYMOUS_EDITS=true
       - CMD_USECDN=false
