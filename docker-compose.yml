@@ -9,9 +9,10 @@ services:
     environment:
       LDAP_ORGANISATION: "doornoc"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
-      # LDAP_DOMAIN: "local.doornoc.net"
-      LDAP_ADMIN_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
+      LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
+      LDAP_SERVER_ID: "101"
+      LDAP_NEIGHBOR_ADDRESS: "ldap2"
     networks:
       - webnet
     # ports:
@@ -26,9 +27,10 @@ services:
     environment:
       LDAP_ORGANISATION: "doornoc"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
-      # LDAP_DOMAIN: "local.doornoc.net"
-      LDAP_ADMIN_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
+      LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
+      LDAP_SERVER_ID: "102"
+      LDAP_NEIGHBOR_ADDRESS: "ldap1"
     networks:
       - webnet
     # ports:

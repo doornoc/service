@@ -1,0 +1,3 @@
+dn: ou=Operator,dc=local,dc=doornoc,dc=net
+objectClass: organizationalUnit
+ou: Operator
