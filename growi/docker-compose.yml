@@ -39,23 +39,23 @@ services:
       - ./data/mongo-config:/data/configdb
       - ./data/mongo-data:/data/db
 
-  elasticsearch:
-    build:
-      context: ./elasticsearch
-      dockerfile: ./Dockerfile
-      args:
-        UID: 1000
-        GID: 1000
-    environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    restart: unless-stopped
-    ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-      - ./data/elasticsearch-data:/data
+#  elasticsearch:
+#    build:
+#      context: ./elasticsearch
+#      dockerfile: ./Dockerfile
+#      args:
+#        UID: 1000
+#        GID: 1000
+#    environment:
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    restart: unless-stopped
+#    ports:
+#      - 9200:9200
+#      - 9300:9300
+#    volumes:
+#      - ./data/elasticsearch-data:/data
