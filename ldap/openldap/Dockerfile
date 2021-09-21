@@ -1,13 +1,13 @@
 FROM alpine:latest
 
-RUN apk add --no-cache --upgrade openldap openldap-clients openldap-backend-all openldap-overlay-all openssl cyrus-sasl
+RUN apk add --no-cache --upgrade openldap openldap-clients openldap-backend-all openldap-overlay-all
 
 WORKDIR /etc/openldap
-COPY ./slapd.conf .
-COPY ./ldif/manager.ldif .
-COPY ./ldif/operator.ldif .
-COPY ./ldif/syncprov.ldif .
-COPY ./ldif/master.ldif .
+COPY ./config/slapd.conf .
+COPY ./config/ldif/manager.ldif .
+COPY ./config/ldif/operator.ldif .
+COPY ./config/ldif/syncprov.ldif .
+COPY ./config/ldif/master.ldif .
 COPY ./docker-entrypoint.sh .
 
 RUN mkdir /var/lib/openldap/run
