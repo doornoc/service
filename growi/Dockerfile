@@ -12,4 +12,4 @@ RUN npm run build:prod
 
 RUN apk del .del
 EXPOSE 3000
-ENTRYPOINT ["npm","run","server:prod"]
+CMD ["npm","run","server:prod"]
