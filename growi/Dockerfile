@@ -3,13 +3,13 @@ WORKDIR /opt
 
 RUN apk --no-cache --virtual .del add curl git python make g++ wget openssl
 
-RUN git clone https://github.com/weseek/growi -b v4.4.2 growi
+RUN git clone https://github.com/weseek/growi -b v4.4.5 growi
 WORKDIR /opt/growi
 
-RUN yarn --network-timeout 1000000
+RUN npx lerna bootstrap
 
-RUN npm run build:prod
+RUN yarn app:build
 
 RUN apk del .del
 EXPOSE 3000
-CMD ["npm","run","server:prod"]
+CMD ["yarn", "app:server"]
