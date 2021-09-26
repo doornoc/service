@@ -1,13 +1,12 @@
-FROM node:14-buster-slim
+FROM node:16.10.0-slim
 
 ARG BUILD_DATE="2021/09/14"
 ARG VERSION="0.1"
-ARG HEDGEDOC_RELEASE="1.8.2"
+ARG HEDGEDOC_RELEASE="1.9.0"
 LABEL build_version="doornoc.net version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="yoneyan"
 
 RUN \
-    echo "**** install build packages ****" && \
     apt-get update && \
     apt-get install -y g++ gcc git gnupg jq libssl-dev make curl fontconfig fonts-noto netcat-openbsd python
 RUN  curl -o \

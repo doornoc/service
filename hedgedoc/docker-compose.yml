@@ -10,20 +10,20 @@ services:
       - "./data/database-data:/var/lib/postgresql/data"
     restart: always
   hedgedoc:
-    image: yoneyan/hedgedoc:0.1
-    #build:
-    #  context: .
-    #  dockerfile: ./Dockerfile
+    #image: yoneyan/hedgedoc:0.1
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     environment:
       - CMD_DB_URL=postgres://hedgedoc:change_password@database/hedgedoc
       - CMD_ALLOW_ANONYMOUS=true
       - CMD_ALLOW_ANONYMOUS_EDITS=true
       - CMD_USECDN=false
-      - CMD_DOMAIN=172.50.1.161:3000
+      - CMD_DOMAIN=hackmd.doornoc.net
       - CMD_IMAGE_UPLOAD_TYPE=filesystem
       - CMD_URL_ADD_PORT=true
       - CMD_SESSION_NAME=connect.codimd.sid
-      - GROWI_URI=http://172.29.0.1:5000
+      - GROWI_URI=https://wiki.doornoc.net
     depends_on:
       - database
     ports:

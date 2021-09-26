@@ -1,9 +1,1 @@
-{
-  "production": {
-    "urlAddPort": true,
-    "email": true,
-    "imageUploadType": "filesystem",
-    "sessionName": "connect.codimd.sid",
-    "allowPDFExport": true
-  }
-}
+{}
