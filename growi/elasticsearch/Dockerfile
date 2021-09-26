@@ -17,6 +17,7 @@ RUN sed "s/Xms1g/Xms256m/" ${ES_HOME}/config/jvm.options > ${ES_HOME}/config/jvm
     && sed "s/Xmx1g/Xmx256m/" ${ES_HOME}/config/jvm.options > ${ES_HOME}/config/jvm.options
 
 RUN adduser -D elasticsearch -h ${ES_HOME}
+RUN mkdir ${ES_HOME}/data
 RUN chown -R elasticsearch:elasticsearch ${ES_HOME}/*
 
 USER elasticsearch

@@ -11,10 +11,10 @@ services:
       - 5000:3000
     links:
       - mongo:mongo
-#      - elasticsearch:elasticsearch
+      - elasticsearch:elasticsearch
     depends_on:
       - mongo
-#      - elasticsearch
+      - elasticsearch
     environment:
       - MONGO_URI=mongodb://mongo:27017/growi
       - ELASTICSEARCH_URI=http://elasticsearch:9200/growi
@@ -56,4 +56,4 @@ services:
       - 9200:9200
       - 9300:9300
     volumes:
-      - ./data/elasticsearch-data:/data
+      - ./data/elasticsearch-data:/opt/elasticsearch/data
