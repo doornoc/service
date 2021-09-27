@@ -1,0 +1,68 @@
+version: '3.7'
+
+services:
+  openldap1:
+    build: ./openldap
+    image: kushimoto/openldap:latest
+    restart: always
+    container_name: openldap1
+    environment:
+      LDAP_ORGANISATION: "doornoc"
+      LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
+      LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
+      LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
+      LDAP_SERVER_ID: "101"
+      LDAP_NEIGHBOR_ADDRESS: "openldap2"
+    networks:
+      - webnet
+    ports:
+    - "389:389"
+    - "636:636"
+
+  openldap2:
+    build: ./openldap
+    image: kushimoto/openldap:latest
+    restart: always
+    container_name: openldap2
+    environment:
+      LDAP_ORGANISATION: "doornoc"
+      LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
+      LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
+      LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
+      LDAP_SERVER_ID: "102"
+      LDAP_NEIGHBOR_ADDRESS: "openldap1"
+    networks:
+      - webnet
+
+  phpldapadmin1:
+    image: osixia/phpldapadmin:latest
+    restart: always
+    container_name: phpldapadmin1
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'openldap1': [{'server': [{'tls': False},{'base': \"array('dc=local,dc=doornoc,dc=net', 'cn=config')\"}]}]}]"
+      PHPLDAPADMIN_LDAP_CLIENT_TLS: false
+      PHPLDAPADMIN_HTTPS: false
+    ports:
+      - "8080:80"
+    links:
+      - "openldap1:ldap"
+    networks:
+      - webnet
+
+  phpldapadmin2:
+    image: osixia/phpldapadmin:latest
+    restart: always
+    container_name: phpldapadmin2
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'openldap2': [{'server': [{'tls': False},{'base': \"array('dc=local,dc=doornoc,dc=net', 'cn=config')\"}]}]}]"
+      PHPLDAPADMIN_LDAP_CLIENT_TLS: false
+      PHPLDAPADMIN_HTTPS: false
+    ports:
+      - "8088:80"
+    links:
+      - "openldap2:ldap"
+    networks:
+      - webnet
+  
+networks:
+  webnet:

@@ -8,6 +8,7 @@ COPY ./config/ldif/manager.ldif .
 COPY ./config/ldif/operator.ldif .
 COPY ./config/ldif/syncprov.ldif .
 COPY ./config/ldif/master.ldif .
+COPY ./config/ldif/add-configpw.ldif .
 COPY ./docker-entrypoint.sh .
 
 RUN mkdir /var/lib/openldap/run

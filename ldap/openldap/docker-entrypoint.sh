@@ -7,14 +7,15 @@ initialize() {
   sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./slapd.conf
   export LDAP_MANAGER_ROOT_PW=`slappasswd -s ${LDAP_MANAGER_PASSWORD}`
   sed -i -e "s~manager_secret~${LDAP_MANAGER_ROOT_PW}~" ./slapd.conf
-  # export LDAP_CONFIG_ROOT_PW=`slappasswd -s ${LDAP_CONFIG_PASSWORD}`
-  # sed -i -e "s~config_secret~${LDAP_CONFIG_ROOT_PW}~" ./slapd.conf
 
   # master.ldif 初期設定
   sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./master.ldif
   sed -i -e "s~999~${LDAP_SERVER_ID}~" ./master.ldif
   sed -i -e "s~neighbor~${LDAP_NEIGHBOR_ADDRESS}~" ./master.ldif
   sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./master.ldif
+
+  # add-configpw.ldif 初期設定
+  sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./add-configpw.ldif
 
   # 設定保存用ディレクトリ作成
   mkdir ./slapd.d
@@ -44,6 +45,9 @@ lazyProcess() {
     # マルチマスターレプリケーション用
     ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
     ldapadd -Y EXTERNAL -H ldapi:/// -f ./master.ldif
+
+    # config database 操作用
+    ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./add-configpw.ldif
 
   else
     echo "OK"

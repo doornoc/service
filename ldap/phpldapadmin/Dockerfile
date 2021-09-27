@@ -1,8 +1,3 @@
-FROM alpine:latest
+FROM osixia/phpldapadmin:0.9.0
 
-RUN apk add --no-cache --upgrade nginx phpldapadmin
-
-WORKDIR /etc/phpldapadmin
-COPY ./config/config.php .
-
-ENTRYPOINT ["sh", "./docker-entrypoint.sh"]
+ADD config/config.php /container/service/phpldapadmin/assets/config/config.php
