@@ -18,6 +18,8 @@ services:
     ports:
     - "389:389"
     - "636:636"
+    volumes:
+      - openldap-data:/var/lib/openldap/openldap-data
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
@@ -36,3 +38,6 @@ services:
 
 networks:
   webnet:
+
+volumes:
+  openldap-data:

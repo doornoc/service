@@ -32,31 +32,31 @@ start() {
 # 起動後実行
 lazyProcess() {
 
-  # 初回のみ実行
-  if [ ! -e '/check2' ]; then
-    touch /check
+  # これがないとなぜか失敗する
+  sleep 10
 
-    sleep 10
-    
-    # Manager 初期設定
-    ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f /etc/openldap/manager.ldif
-    # 運営メンバー追加
-    ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
-    # マルチマスターレプリケーション用
-    ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
-    ldapadd -Y EXTERNAL -H ldapi:/// -f ./master.ldif
+  # Manager 初期設定
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f /etc/openldap/manager.ldif
+  # 運営メンバー追加
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
+  # マルチマスターレプリケーション用
+  ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
+  ldapadd -Y EXTERNAL -H ldapi:/// -f ./master.ldif
 
-    # config database 操作用
-    ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./add-configpw.ldif
+  # config database 操作用
+  ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./add-configpw.ldif
 
-  else
-    echo "OK"
-  fi
+ }
 
-}
+if [ ! -e /var/lib/openldap/openldap-data/initialized ]; then
+  initialize &
+fi
 
-initialize &
 start &
-lazyProcess &
+
+if [ ! -e /var/lib/openldap/openldap-data/initialized ]; then
+  lazyProcess &
+  touch /var/lib/openldap/openldap-data/initialized
+fi
 
 wait
