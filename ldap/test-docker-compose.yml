@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 
 services:
   openldap1:
@@ -40,8 +40,8 @@ services:
     container_name: phpldapadmin1
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'openldap1': [{'server': [{'tls': False},{'base': \"array('dc=local,dc=doornoc,dc=net', 'cn=config')\"}]}]}]"
-      PHPLDAPADMIN_LDAP_CLIENT_TLS: false
-      PHPLDAPADMIN_HTTPS: false
+      PHPLDAPADMIN_LDAP_CLIENT_TLS: "false"
+      PHPLDAPADMIN_HTTPS: "false"
     ports:
       - "8080:80"
     links:
@@ -55,8 +55,8 @@ services:
     container_name: phpldapadmin2
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'openldap2': [{'server': [{'tls': False},{'base': \"array('dc=local,dc=doornoc,dc=net', 'cn=config')\"}]}]}]"
-      PHPLDAPADMIN_LDAP_CLIENT_TLS: false
-      PHPLDAPADMIN_HTTPS: false
+      PHPLDAPADMIN_LDAP_CLIENT_TLS: "false"
+      PHPLDAPADMIN_HTTPS: "false"
     ports:
       - "8088:80"
     links:
