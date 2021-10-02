@@ -1,4 +1,4 @@
 DEFAULT		Auth-Type = LDAP
 		Fall-Through = Yes
 yukiji
-    Service-Type = Administrative-User
+    Service-Type = Administrative
