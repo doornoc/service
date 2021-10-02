@@ -1,0 +1,11 @@
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+replace olcAccess
+olcAccess: to attrs=userPassword
+  by anonymous auth
+  by dn="cn=Admin,dc=my-domain,dc=com" read
+  by * none
+olcAccess: to *
+  by self =rwcsx
+  by dn="cn=Admin,dc=my-domain,dc=com" =rcsx
+  by * read

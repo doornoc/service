@@ -1,0 +1,5 @@
+dn: cn=RadiusAdmin,dc=my-domain,dc=com
+objectClass: person
+cn: RadiusAdmin
+sn: Free Radius Administrator
+userPassword: radiusadmin_secret

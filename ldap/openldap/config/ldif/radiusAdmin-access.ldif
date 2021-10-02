@@ -1,0 +1,13 @@
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: to Attrs=userPassword
+  by anonymous *
+  by dn="cn=Admin,dc=my-domain,dc=com" read
+  by dn="cn=RadiusAdmin,dc=my-domain,dc=com" write
+  by * none
+olcAccess: to *
+  by self =rwcsx
+  by dn="Admin,dc=my-domain,dc=com" =rcsx
+  by dn="cn=RadiusAdmin,dc=my-domain,dc=com" write
+  by * read

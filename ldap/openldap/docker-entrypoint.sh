@@ -15,7 +15,22 @@ initialize() {
   sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./master.ldif
 
   # add-configpw.ldif 初期設定
-  sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./add-configpw.ldif
+  sed -i -e "s~secret~${LDAP_MANAGER_ROOT_PW}~" ./add-configpw.ldif
+
+  # admin.ldif 初期設定
+  export LDAP_ADMIN_ROOT_PW=`slappasswd -s ${LDAP_ADMIN_PASSWORD}`
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./admin.ldif
+  sed -i -e "s~admin_secret~${LDAP_ADMIN_ROOT_PW}~" ./admin.ldif
+
+  # freeradius.ldif 初期設定
+  export LDAP_FREERADIUS_ROOT_PW=`slappasswd -s ${LDAP_FREERADIUS_PASSWORD}`
+  sed -i -e "s~radiusadmin_secret~${LDAP_FREERADIUS_ROOT_PW}~" ./freeradius.ldif
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./freeradius.ldif
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./radiusAdmin-access.ldif
+
+  # access.ldif
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./access.ldif
+
 
   # 設定保存用ディレクトリ作成
   mkdir ./slapd.d
@@ -37,16 +52,30 @@ lazyProcess() {
 
   # Manager 初期設定
   ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f /etc/openldap/manager.ldif
-  # 運営メンバー追加
-  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
-  # マルチマスターレプリケーション用
-  ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
-  ldapadd -Y EXTERNAL -H ldapi:/// -f ./master.ldif
 
   # config database 操作用
   ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./add-configpw.ldif
 
- }
+  # 運営メンバー追加
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
+
+  # allow.ldif
+  ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./allow.ldif
+
+  # admin.ldif
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./admin.ldif
+
+  # access.ldif
+  ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./access.ldif
+
+  # freeradius 用
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./freeradius.ldif
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./radiusAdmin-access.ldif
+
+  # マルチマスターレプリケーション用
+  ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
+  ldapadd -Y EXTERNAL -H ldapi:/// -f ./master.ldif
+}
 
 if [ ! -e /var/lib/openldap/openldap-data/initialized ]; then
   initialize &

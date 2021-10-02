@@ -1,0 +1,5 @@
+dn: cn=Admin,dc=my-domain,dc=com
+objectClass: person
+cn: Admin
+sn: Admin
+userPassword: admin_secret
