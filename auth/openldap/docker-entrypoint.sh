@@ -69,7 +69,7 @@ lazyProcess() {
 
   # freeradius 用
   ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./freeradius.ldif
-  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./radiusAdmin-access.ldif
+  ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./radiusAdmin-access.ldif
 
   # マルチマスターレプリケーション用
   ldapadd -Y EXTERNAL -H ldapi:/// -f ./syncprov.ldif
