@@ -1,0 +1,2 @@
+DEFAULT		Auth-Type = LDAP
+		Fall-Through = Yes

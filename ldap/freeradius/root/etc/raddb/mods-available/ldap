@@ -1,0 +1,32 @@
+ldap {
+
+  server = 'openldap'
+  port = 389
+  identity = 'cn=Manager,dc=my-domain,dc=com'
+  password = manager_secret
+  base_dn = 'dc=my-domain,dc=com'
+
+  sasl {
+  }
+
+  update {
+    control:Password-With-Header  +=  'userPassword'
+    control:                      +=  'radiusControlAttribute'
+    request:                      +=  'radiusRequestAttribute'
+    reply:                       +=  'radiusReplyAttribute'
+  }
+
+  user {
+    base_dn = "${..base_dn}"
+    filter = "(uid=%{%{Stripped-User-Name}:-%{User-Name}})"
+    sasl {
+    }
+  }
+
+  group {
+    base_dn = "${..base_dn}"
+    filter = '(objectClass=posixGroup)'
+    membership_attribute = 'memberOf'
+  }
+
+}

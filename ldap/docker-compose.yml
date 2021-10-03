@@ -1,0 +1,67 @@
+version: '3.3'
+
+services:
+  openldap:
+    build: ./openldap
+    image: kushimoto/openldap:latest
+    restart: always
+    container_name: openldap
+    environment:
+      LDAP_ORGANISATION: "doornoc"
+      LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
+      LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
+      LDAP_ADMIN_PASSWORD: "password"
+      LDAP_FREERADIUS_PASSWORD: "password"
+      LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
+      LDAP_SERVER_ID: "101"
+      LDAP_NEIGHBOR_ADDRESS: "neighbor_address"
+    networks:
+      - webnet
+    ports:
+    - "389:389"
+    - "636:636"
+    volumes:
+      - ./data/openldap-data:/var/lib/openldap/openldap-data
+      - ./data/slapd-data:/etc/openldap/slapd.d
+      # - openldap-data:/var/lib/openldap/openldap-data
+      # - slapd-data:/etc/openldap/slapd.d
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    restart: always
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_CLIENT_TLS: "false"
+      PHPLDAPADMIN_HTTPS: "false"
+      PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'openldap': [{'server': [{'tls': False},{'base': \"array('dc=local,dc=doornoc,dc=net', 'cn=config')\"}]}]}]"
+    ports:
+      - "8080:80"
+    links:
+      - "openldap:ldap"
+    networks:
+      - webnet
+
+  freeradius:
+    build: ./freeradius
+    image: doornoc/freeradius
+    restart: always
+    container_name: freeradius
+    depends_on:
+      - openldap
+      - phpldapadmin
+    environment:
+      LDAP_IDENTITY: "cn=RadiusAdmin,dc=local,dc=doornoc,dc=net"
+      LDAP_MANAGER_PASSWORD: "password"
+      LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    networks:
+      - webnet
+
+networks:
+  webnet:
+
+# volumes:
+#  openldap-data:
+#  slapd-data:
