@@ -31,9 +31,8 @@ initialize() {
   # access.ldif
   sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./access.ldif
 
-
   # 設定保存用ディレクトリ作成
-  mkdir ./slapd.d
+  # mkdir ./slapd.d
 
   # slaptset
   slaptest -f ./slapd.conf -F ./slapd.d
