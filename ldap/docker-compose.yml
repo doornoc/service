@@ -20,8 +20,11 @@ services:
     ports:
     - "389:389"
     - "636:636"
-      #    volumes:
-      #- openldap-data:/var/lib/openldap/openldap-data
+    volumes:
+      - ./data/openldap-data:/var/lib/openldap/openldap-data
+      - ./data/slapd-data:/etc/openldap/slapd.d
+      # - openldap-data:/var/lib/openldap/openldap-data
+      # - slapd-data:/etc/openldap/slapd.d
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
@@ -51,13 +54,14 @@ services:
       LDAP_MANAGER_PASSWORD: "password"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
     ports:
-      - "1812:1812"
-      - "1813:1813"
+      - "1812:1812/udp"
+      - "1813:1813/udp"
     networks:
       - webnet
 
 networks:
   webnet:
 
-volumes:
-  openldap-data:
+# volumes:
+#  openldap-data:
+#  slapd-data:

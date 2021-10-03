@@ -1,4 +1,5 @@
 ldap {
+
   server = 'openldap'
   port = 389
   identity = 'cn=Manager,dc=my-domain,dc=com'
