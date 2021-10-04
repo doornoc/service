@@ -397,7 +397,7 @@ services:
    - "3000:3000"
   user: '472'
   volumes:
-#   - ./grafana/etc/grafana:/etc/grafana
+   - ./grafana/etc/grafana:/etc/grafana
    - ./grafana/var/lib/grafana:/var/lib/grafana
    - ./grafana/var/log/grafana:/var/log/grafana
 #   - ./grafana/usr/share/grafana:/usr/share/grafana
