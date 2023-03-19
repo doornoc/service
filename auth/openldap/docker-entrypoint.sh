@@ -14,6 +14,12 @@ initialize() {
   sed -i -e "s~neighbor~${LDAP_NEIGHBOR_ADDRESS}~" ./master.ldif
   sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./master.ldif
 
+  # operator.ldif
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./operator.ldif
+
+  # standard-container.ldif
+  sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./standard-container.ldif
+
   # add-configpw.ldif 初期設定
   sed -i -e "s~secret~${LDAP_MANAGER_ROOT_PW}~" ./add-configpw.ldif
 
@@ -55,9 +61,6 @@ lazyProcess() {
   # config database 操作用
   ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./add-configpw.ldif
 
-  # 運営メンバー追加
-  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
-
   # allow.ldif
   ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./allow.ldif
 
@@ -66,6 +69,12 @@ lazyProcess() {
 
   # access.ldif
   ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./access.ldif
+
+  # standard-container
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./standard-container.ldif
+
+  # operator
+  ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./operator.ldif
 
   # freeradius 用
   ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./freeradius.ldif

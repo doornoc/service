@@ -1,4 +1,4 @@
-dn: cn=RadiusAdmin,dc=my-domain,dc=com
+dn: cn=RadiusAdmin,ou=Services,dc=my-domain,dc=com
 objectClass: person
 cn: RadiusAdmin
 sn: Free Radius Administrator

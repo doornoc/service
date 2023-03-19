@@ -41,6 +41,25 @@ services:
     networks:
       - webnet
 
+  lam:
+    image: ldapaccountmanager/lam
+    container_name: lam
+    restart: on-failure:3
+    environment:
+      LDAP_DOMAIN: "local.doornoc.net"
+      LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
+      LDAP_USERS_DN: "ou=People,dc=local,dc=doornoc,dc=net"
+      LDAP_GROUPS_DN: "ou=Groups,dc=local,dc=doornoc,dc=net"
+      LDAP_SERVER: "ldap://openldap:389"
+      LAM_LANG: "ja_JP"
+      LAM_PASSWORD: "lam_password"
+    depends_on:
+      - openldap
+    ports:
+      - 8000:80
+    networks:
+      - webnet
+
   freeradius:
     build: ./freeradius
     image: doornoc/freeradius

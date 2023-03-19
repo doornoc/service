@@ -1,16 +1,10 @@
 FROM alpine:latest
 
 RUN apk add --no-cache --upgrade openldap openldap-clients openldap-backend-all openldap-overlay-all
+RUN wget -P /etc/openldap/schema https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openssh-lpk/openssh-lpk_openldap.schema
 
 WORKDIR /etc/openldap
 COPY ./config/slapd.conf .
-# COPY ./config/ldif/manager.ldif .
-# COPY ./config/ldif/operator.ldif .
-# COPY ./config/ldif/syncprov.ldif .
-# COPY ./config/ldif/master.ldif .
-# COPY ./config/ldif/add-configpw.ldif .
-# COPY ./config/ldif/freeradius.ldif .
-# COPY ./config/ldif/radiusAdmin-access.ldif .
 COPY ./config/ldif/* ./
 COPY ./docker-entrypoint.sh .
 

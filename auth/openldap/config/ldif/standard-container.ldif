@@ -1,0 +1,15 @@
+dn: ou=People,dc=my-domain,dc=com
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Groups,dc=my-domain,dc=com
+objectClass: organizationalUnit
+ou: Groups
+
+dn: ou=Machine,dc=my-domain,dc=com
+objectClass: organizationalUnit
+ou: Machine
+
+dn: ou=Services,dc=my-domain,dc=com
+objectClass: organizationalUnit
+ou: Services
