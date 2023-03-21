@@ -69,7 +69,7 @@ services:
       - openldap
       - phpldapadmin
     environment:
-      LDAP_IDENTITY: "cn=RadiusAdmin,dc=local,dc=doornoc,dc=net"
+      LDAP_IDENTITY: "cn=RadiusAdmin,ou=Services,dc=local,dc=doornoc,dc=net"
       LDAP_MANAGER_PASSWORD: "password"
       LDAP_BASE_DN: "dc=local,dc=doornoc,dc=net"
     ports:

@@ -1,2 +1,3 @@
 DEFAULT		Auth-Type = LDAP
+		Service-Type = Administrative,
 		Fall-Through = Yes

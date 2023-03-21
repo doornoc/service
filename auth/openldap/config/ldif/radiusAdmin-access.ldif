@@ -4,10 +4,10 @@ replace: olcAccess
 olcAccess: to attrs=userPassword
   by anonymous auth 
   by dn="cn=Admin,dc=my-domain,dc=com" read
-  by dn="cn=RadiusAdmin,dc=my-domain,dc=com" write
+  by dn="cn=RadiusAdmin,ou=Services,dc=my-domain,dc=com" write
   by * none
 olcAccess: to *
   by self =rwcsx
   by dn="cn=Admin,dc=my-domain,dc=com" =rcsx
-  by dn="cn=RadiusAdmin,dc=my-domain,dc=com" write
+  by dn="cn=RadiusAdmin,ou=Services,dc=my-domain,dc=com" write
   by * read
