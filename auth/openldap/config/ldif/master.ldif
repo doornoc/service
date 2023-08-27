@@ -6,7 +6,7 @@ olcServerID: 999
 dn: olcDatabase={1}mdb,cn=config
 changetype: modify
 add: olcSyncRepl
-olcSyncRepl: rid=001
+olcSyncRepl: rid=777
   provider=ldap://neighbor:389/
   bindmethod=simple
   binddn="cn=Manager,dc=my-domain,dc=com"

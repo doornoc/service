@@ -11,6 +11,7 @@ initialize() {
   # master.ldif 初期設定
   sed -i -e "s~dc=my-domain,dc=com~${LDAP_BASE_DN}~g" ./master.ldif
   sed -i -e "s~999~${LDAP_SERVER_ID}~" ./master.ldif
+  sed -i -e "s~777~${LDAP_NEIGHBOR_SERVER_ID}~" ./master.ldif
   sed -i -e "s~neighbor~${LDAP_NEIGHBOR_ADDRESS}~" ./master.ldif
   sed -i -e "s~secret~${LDAP_MANAGER_PASSWORD}~" ./master.ldif
 

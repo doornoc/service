@@ -3,7 +3,7 @@ version: '3.3'
 services:
   openldap1:
     build: ./openldap
-    image: kushimoto/openldap:latest
+    image: kushimoto/openldap1:latest
     restart: always
     container_name: openldap1
     environment:
@@ -12,16 +12,14 @@ services:
       LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
       LDAP_SERVER_ID: "101"
+      LDAP_NEIGHBOR_SERVER_ID: "102"
       LDAP_NEIGHBOR_ADDRESS: "openldap2"
     networks:
       - webnet
-    ports:
-    - "389:389"
-    - "636:636"
 
   openldap2:
     build: ./openldap
-    image: kushimoto/openldap:latest
+    image: kushimoto/openldap2:latest
     restart: always
     container_name: openldap2
     environment:
@@ -30,6 +28,7 @@ services:
       LDAP_MANAGER_PASSWORD: "password" #cn=admin,dc=hogetech,dc=com のパスワード
       LDAP_CONFIG_PASSWORD: "password" #cn=admin,cn=config のパスワード
       LDAP_SERVER_ID: "102"
+      LDAP_NEIGHBOR_SERVER_ID: "101"
       LDAP_NEIGHBOR_ADDRESS: "openldap1"
     networks:
       - webnet
