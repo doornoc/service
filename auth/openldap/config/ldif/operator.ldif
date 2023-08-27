@@ -1,4 +1,4 @@
 dn: cn=Operator,ou=Groups,dc=my-domain,dc=com
 objectClass: posixGroup
 cn: Operator
-gidNumber: 1001
+gidNumber: 10000
