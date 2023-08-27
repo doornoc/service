@@ -67,8 +67,8 @@ lazyProcess() {
   # admin.ldif
   ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./admin.ldif
 
-  # access.ldif
-  ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./access.ldif
+  # access.ldif radiusAdmin-access.ldifで上書きされるためコメントアウト
+  # ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f ./access.ldif
 
   # standard-container
   ldapadd -x -D "cn=Manager,dc=local,dc=doornoc,dc=net" -w ${LDAP_MANAGER_PASSWORD} -f ./standard-container.ldif

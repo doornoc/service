@@ -4,6 +4,7 @@ add: olcAccess
 olcAccess: to attrs=userPassword
   by anonymous auth
   by dn="cn=Admin,dc=my-domain,dc=com" read
+  by self =rwcsx
   by * none
 olcAccess: to *
   by self =rwcsx
